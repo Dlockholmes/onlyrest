@@ -6,7 +6,7 @@ function warn_set() {
 
     function display_off() {
         if (warn_op > 0) {
-            warn_op -= 0.04;
+            warn_op -= 0.025;
             warn_txt.style = "opacity: " + warn_op + ";";
         } else if (warn_op < 0) {
             warnmsg="절대건드리지마시오".split('')
