@@ -17,7 +17,7 @@ function _getangle(e1,e2){
 }
 
 function setarrowsize() {
-    FontSize = parseInt(parseInt(Math.pow(Math.pow(window.innerHeight,2)+Math.pow(window.innerWidth,2),(1/2)))*(150/2094));
+    FontSize = parseInt(parseInt(Math.pow(Math.pow(window.innerHeight,2)+Math.pow(window.innerWidth,2),(1/2)))*(100/2094));
     const arrows = document.getElementsByClassName("arrow");
     for(var i=0;i<arrows.length;i++){
         arrows[i].style.fontSize=FontSize.toString()+"px";
