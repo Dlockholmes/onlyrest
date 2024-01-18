@@ -32,10 +32,13 @@ function setarrowsize() {
 }
 function _onload() {
     document.getElementById("1").style="top: 50%; left: 50%;";
-    document.getElementById("2").style="color:black; top: 50%; left: 80%;";
-    document.getElementById("3").style="color:black; top: 20%; left: 75%;";
-    document.getElementById("4").style="color:black; top: 70%; left: 20%;";
-    document.getElementById("5").style="color:black; top: 30%; left: 50%;";
+    document.getElementById("2").style="color: black; top: 50%; left: 80%;";
+    document.getElementById("3").style="color: black; top: 20%; left: 75%;";
+    document.getElementById("4").style="color: black; top: 70%; left: 20%;";
+    document.getElementById("5").style="color: black; top: 30%; left: 50%;";
+    document.getElementById("6").style="color: black; top: 90%; left: 70%;";
+    document.getElementById("7").style="color: black; top: 20%; left: 20%;";
+    document.getElementById("8").style="color: black; top: 70%; left: 50%;";
     setarrowsize();
     window.addEventListener("resize",(e)=>{
         setarrowsize();
