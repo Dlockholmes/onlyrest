@@ -43,7 +43,7 @@ body {
 }
 .arrow {
     font-size: 100px;
-    color: white;
+    color: #101010;
     user-select: none;
     position: absolute;
 }
