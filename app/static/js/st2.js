@@ -45,7 +45,7 @@ function _onload() {
 
 function _arrowclick(e){
     if(e.target.id!=document.getElementsByClassName("arrow").length) {
-        e.target.style.color="white";
+        e.target.style.color="#101010";
         document.getElementById((parseInt(e.target.id) + 1).toString()).addEventListener("click", _arrowclick);
     } else {
         e.target.style.color="yellow";
