@@ -49,6 +49,7 @@ function _arrowclick(e){
         document.getElementById((parseInt(e.target.id) - 1).toString()).style.color="white";
         document.getElementById((parseInt(e.target.id) + 1).toString()).addEventListener("click", _arrowclick);
     } else {
+        document.getElementById((parseInt(e.target.id) - 1).toString()).style.color="white";
         e.target.style.color="yellow";
         window.location.href="/3";
     }
