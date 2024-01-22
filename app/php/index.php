@@ -3,5 +3,5 @@
 </form>
 
 <?php
-    echo $_POST["body"];
+    echo $_POST["1"];
 ?>
