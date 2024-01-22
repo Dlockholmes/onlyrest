@@ -1,12 +1,7 @@
-<form method="post">
-    <input type="submit" name="test" id="test">
+<form id="password">
+    <input type="submit" name="1">
 </form>
 
 <?php
-    function testfun(){
-        echo "Hello world";
-    }
-    if(array_key_exists('test',$_POST)){
-        testfun();
-    }
+    echo $_POST;
 ?>
