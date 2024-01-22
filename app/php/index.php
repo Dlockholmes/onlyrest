@@ -1,5 +1,5 @@
 <form id="password">
-    <input type="submit" name="1">
+    <input type="submit" name="1" value="hello">
 </form>
 
 <?php
