@@ -1,29 +1,129 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>LTP</title>
-    <link rel="stylesheet" href="/static/css/main.css">
-    <script src="/static/js/main.js"></script>
+    <title>바다거북스프</title>
+    <link href="/sys/css/index.css" rel="stylesheet">
+    <link href="/sys/css/wordle.css" rel="stylesheet">
+    <script>
+        const unsecuredCopyToClipboard = (text) => { const textArea = document.createElement("textarea"); textArea.value=text; document.body.appendChild(textArea); textArea.focus();textArea.select(); try{document.execCommand('copy')}catch(err){console.error('Unable to copy to clipboard',err)}document.body.removeChild(textArea)};
+
+        const copyToClipboard = (content) => {
+            if (window.isSecureContext && navigator.clipboard) {
+                navigator.clipboard.writeText(content);
+            } else {
+                unsecuredCopyToClipboard(content);
+            }
+        };
+    </script>
 </head>
-<body onload="warn_set();">
-    <div class="keypad_container">
-        <div>
-            <div class="keypad" id="1"></div>
-            <div class="keypad" id="2"></div>
-            <div class="keypad" id="3"></div>
-        </div>
-        <div>
-            <div class="keypad" id="4"></div>
-            <div class="keypad" id="5"></div>
-            <div class="keypad" id="6"></div>
-        </div>
-        <div>
-            <div class="keypad" id="7"></div>
-            <div class="keypad" id="8"></div>
-            <div class="keypad" id="9"></div>
-        </div>
-    </div>
-    <span id="display_warning"></span>
+<body style="text-align: center;" onload="copyToClipboard('');">
+    {% for i in alpha %}
+        <h1 id="al_{{ i }}" class="status_0" style="display: inline-block;">{{ i }}</h1>
+    {% endfor %}
+    <h1>WORDLE!</h1>
+    <h1>6 WORDs!</h1>
+    <input style="text-align:center;font-size:30px;font-weight:bold;" type="text" id="wordle">
+    <script>
+        function accept_next(arr){
+            for(var i=0;i<arr.length;i++){
+                if(arr[i]!=2){return false;}
+            }
+            return true;
+        }
+        function copy_board(){
+            var board = document.getElementsByClassName("wordle-container");
+            var text = "";
+            for(var i=0;i<board.length;i++){
+                var board_child = board[i].children;
+                for(var j=0;j<board_child.length;j++){
+                    if(board_child[j].classList.value.split(" ")[1]=="absent"){
+                        text += "⬜";
+                    }
+                    if(board_child[j].classList.value.split(" ")[1]=="present"){
+                        text += "🟨";
+                    }
+                    if(board_child[j].classList.value.split(" ")[1]=="correct"){
+                        text += "🟩";
+                    }
+                }
+                text+="\n";
+            }
+            text = text.slice(0,text.length-1);
+            console.log(text);
+            copyToClipboard(text);
+        }
+        document.getElementById("wordle").addEventListener("keypress",(e)=>{
+            if(e.keyCode==13){
+                data = document.getElementById("wordle").value;
+
+                if(data.length!=6){alert("6글자를 입력해주세요");return;}
+
+                const Http = new XMLHttpRequest();
+                Http.open("POST","/wordle");
+                Http.setRequestHeader("Content-Type","application/json");
+                Http.send(JSON.stringify({"wordle":data}));
+
+                Http.onreadystatechange=(e)=>{
+                    if(Http.readyState!=4){return;}
+                    data = JSON.parse(Http.responseText);
+                    if(!data["success"]){
+                        if(data["error"]=="NoDict"){
+                            alert("사전에 존재하지 않는 단어입니다.");
+                            document.getElementById("wordle").value="";
+                        }
+                        return;
+                    }
+                    var container = document.createElement("div");
+                    container.classList.add("wordle-container");
+                    for(var i=0;i<data["status"].length;i++){
+                        var wordle = document.createElement("div");
+                        wordle.classList.add("wordle");
+                        var word_status = document.getElementById("al_"+data["word"][i].toUpperCase());
+                        if(data["status"][i]==0){
+                            if(word_status) {
+                                word_status.classList.value = "";
+                                word_status.classList.add("status_1");
+                            }
+                            wordle.classList.add("absent");
+                        }
+                        if(data["status"][i]==1){
+                            if(word_status.classList.value!="status_3"){
+                                if(word_status) {
+                                    word_status.classList.value = "";
+                                    word_status.classList.add("status_2");
+                                }
+                            }
+                            wordle.classList.add("present");
+                        }
+                        if(data["status"][i]==2){
+                            if(word_status) {
+                                word_status.classList.value = "";
+                                word_status.classList.add("status_3");
+                            }
+                            wordle.classList.add("correct");
+                        }
+                        wordle.innerHTML=data["word"][i].toUpperCase();
+                        container.appendChild(wordle);
+                    }
+                    document.body.appendChild(container);
+                    document.getElementById("wordle").value="";
+                    document.getElementById("wordle").focus();
+                    if(data["word"]=="unlock"){
+                        var unlock = document.createElement("img")
+                        unlock.setAttribute("src","/sys/images/unlock.jfif");
+                        unlock.setAttribute("style","position:relative; width:85%;");
+                        document.body.appendChild(unlock);
+                        window.scrollTo(0,document.body.scrollHeight);
+                        alert("내 마음을~! U.N.L.O.C.K (언록~!)");
+                    }
+                    if(accept_next(data["status"])){
+                        copy_board();
+                        location.href="/Corba";
+                    }
+                };
+            }
+        });
+    </script>
 </body>
 </html>

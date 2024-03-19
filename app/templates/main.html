@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>D'lock homes</title>
+    <style>
+        @font-face {
+            font-family: "logo";
+            src: url("/sys/css/fonts/PyeongChangPeace-Bold.ttf") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+        }
+    </style>
+</head>
+<body style="text-align: center;background-color: black;color:green;">
+<h1><div id="secret" style="display:inline;">WELCOME</div> to <div id="logout" style="display: inline;">D'lock homes</div></h1>
+    <h1>로그인한 계정: "{{ user }}"</h1>
+    <div id="logo_container" style="color: #E1C13A; margin: 30px; font-family: logo;">
+        <div style="margin:0 auto; width:62%;"><hr style="margin-bottom:10px; background-color: #E1C13A; height:2px; border:0;"></div>
+        <div style="margin:0 auto; width:62%;"><hr style="margin-bottom:90px; background-color: #E1C13A; height:2px; border:0;"></div>
+        <div id="logo-contents" style="display: inline-block; vertical-align: middle;">
+            <table style="margin:0 auto; display:inline;">
+                <tr>
+                    <td id="1_a" onclick="logo_num_1+=1;show_table();" style="height:30px;"></td>
+                    <td id="2_a" onclick="logo_num_2+=1;show_table();" style="height:30px;"></td>
+                    <td id="3_a" onclick="logo_num_3+=1;show_table();" style="height:30px;"></td>
+                </tr>
+                <tr style="font-size:100px;">
+                    <td id="1_c">2</td>
+                    <td id="2_c">2</td>
+                    <td id="3_c">1</td>
+                    <td style="width:20px;"></td>
+                    <td>B</td>
+                </tr>
+                <tr>
+                    <td id="1_b" onclick="logo_num_1-=1;show_table();" style="height:30px;"></td>
+                    <td id="2_b" onclick="logo_num_2-=1;show_table();" style="height:30px;"></td>
+                    <td id="3_b" onclick="logo_num_3-=1;show_table();" style="height:30px;"></td>
+                </tr>
+            </table>
+        </div>
+        <div id="logo-slogan" style="font-size:30px;">D'lock Holmes</div>
+        <div style="margin:0 auto; width:62%;"><hr style="margin-top:90px; background-color: #E1C13A; height:2px; border:0;"></div>
+        <div style="margin:0 auto; width:62%;"><hr style="margin-top:10px; background-color: #E1C13A; height:2px; border:0;"></div>
+    </div>
+    <div id="rounge_container" style="height: 200px;">
+        <textarea id="rounge" style="font-size:20px;font-weight: bold;color:black;width: 69.5%; height: 100%; margin:0;" readonly disabled></textarea>
+        <input id="rounge_insert" style="width: 70%; height: 40px; margin:0;padding:0;border:0;">
+    </div>
+
+
+    <script type="text/javascript">
+        var _timer = 0;
+        var logo_num_1 = 2;
+        var logo_num_2 = 2;
+        var logo_num_3 = 1;
+        function show_table() {
+            if (logo_num_1 == -1) {
+                logo_num_1 = 9;
+            }
+            if (logo_num_1 == 10) {
+                logo_num_1 = 0;
+            }
+            if (logo_num_2 == -1) {
+                logo_num_2 = 9;
+            }
+            if (logo_num_2 == 10) {
+                logo_num_2 = 0;
+            }
+            if (logo_num_3 == -1) {
+                logo_num_3 = 9;
+            }
+            if (logo_num_3 == 10) {
+                logo_num_3 = 0;
+            }
+            if (logo_num_1 == 9 && logo_num_2 == 9 && logo_num_3 == 9) {
+                location.href = "/mission";
+            }
+            document.getElementById("1_c").innerHTML = logo_num_1;
+            document.getElementById("2_c").innerHTML = logo_num_2;
+            document.getElementById("3_c").innerHTML = logo_num_3;
+        }
+        document.getElementById("logout").addEventListener("click", function(e){
+            Http = new XMLHttpRequest();
+            Http.open("POST","/logout");
+            Http.send();
+            Http.onreadystatechange=(e)=>{
+                if(Http.readyState != 4) return;
+                if(Http.status!=200){
+                    return;
+                }
+                location.reload();
+                var received = JSON.parse(Http.responseText);
+                if(received["success"]!=true){
+                    console.log("LOGOUT Failed");
+                    return;
+                }
+                alert("bye");
+                window.location.href="/Corba";
+            }
+        });
+        function reload(){
+            Http = new XMLHttpRequest();
+            Http.open("GET", "/chatlog");
+            Http.send();
+            Http.onreadystatechange=(e)=> {
+                if (Http.readyState != 4) return;
+                if (Http.status != 200) {
+                    return;
+                }
+                var received = JSON.parse(Http.responseText);
+                console.log(received);
+                if(received["success"]!=true){return;}
+                var data = received["text"];
+                var text = "";
+                for(var i=0;i<data.length;i++){
+                    text += data[i]["time"]+"|\""+data[i]["userid"]+"\": "+data[i]["chat"]+"\n";
+                }
+                document.getElementById("rounge").innerHTML=text;
+                document.getElementById("rounge").scrollTop=document.getElementById("rounge").scrollHeight;
+            }
+        }
+        function reload_chat(){
+            reload();
+            document.getElementById("rounge_insert").focus();
+        }
+        document.getElementById("rounge_insert").addEventListener("keydown",function(e){
+            if(e.keyCode==13){
+                Http = new XMLHttpRequest();
+                Http.open("POST","/chat");
+                Http.setRequestHeader("Content-Type","application/json")
+                Http.send(JSON.stringify({"text":document.getElementById("rounge_insert").value}));
+                document.getElementById("rounge_insert").value="";
+                Http.onreadystatechange=(e)=>{
+                    if(Http.readyState != 4) return;
+                    if(Http.status!=200){
+                        return;
+                    }
+                    var received = JSON.parse(Http.responseText);
+                    if(received["success"]!=true){return;}
+                    reload_chat();
+                }
+            }
+        });
+        setInterval(reload,500);
+    </script>
+</body>
+</html>

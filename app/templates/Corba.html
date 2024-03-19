@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>바다거북스프</title>
+    <link rel="stylesheet" href="/sys/css/index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha256.js"></script>
+</head>
+<body style="background-color: black; color: green; margin: 0; display:flex; justify-content: center;">
+    <div id="login_container" style="margin-top:40vh; text-align: center;">
+        <div id="login" style="display: inline;">LOGIN</div> for <div id="censored" style="display:inline; color:red; font-weight: bold;">[CENSORED]</div>
+        <form>
+            <table>
+                <tr>
+                    <td>ID</td>
+                    <td><input id="ID" type="text"></td>
+                </tr>
+                <tr>
+                    <td>PW</td>
+                    <td><input id="PW" type="password"></td>
+                </tr>
+            </table>
+            <button id="submit_btn" type="button">SUBMIT</button>
+        </form>
+    </div>
+    <script type="text/javascript">
+        var reg = 0;
+        var btn= document.getElementById("submit_btn");
+        btn.addEventListener("click",function(e){
+            e.stopPropagation();
+            alert("WRONG LOGIN");
+        });
+        var censored = document.getElementById("censored");
+        censored.addEventListener("click",function(e){
+            const Http = new XMLHttpRequest();
+            Http.open("POST","/login");
+            Http.setRequestHeader("Content-Type", "application/json")
+            Http.send(JSON.stringify({"id":document.getElementById("ID").value, "pw":CryptoJS.SHA256(document.getElementById("PW").value).toString(CryptoJS.enc.HEX)}));
+            Http.onreadystatechange=(e)=>{
+                if(Http.readyState != 4) return;
+                if(Http.status!=200){
+                    return;
+                }
+                var received = JSON.parse(Http.responseText);
+                if(received["success"]!=true){
+                    console.log("LOGIN Failed");
+                    return;
+                }
+                alert("Successfully logged in!");
+                window.location.href="/login";
+                return;
+            };
+        });
+        document.getElementById("login").addEventListener("click",function(e){
+            if(reg<5){
+                reg+=1;
+            }
+            if(reg==5){window.location.href="/register";}
+        });
+    </script>
+</body>
+</html>

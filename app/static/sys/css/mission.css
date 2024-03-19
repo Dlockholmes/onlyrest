@@ -1,0 +1,22 @@
+body{
+    text-align: center;
+    background-color: black;
+    position: relative;
+}
+#letter_img{
+    width: 650px;
+}
+#letter_container{
+    width: 100%;
+    position: absolute;
+    user-select: none;
+}
+#letter{
+    font-family: letter;
+    width: 100%;
+    top: 120px;
+    position: relative;
+}
+.point{
+    font-family: letter-point;
+}
