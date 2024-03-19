@@ -8,15 +8,15 @@ app.secret_key = "hello world"
 freepass=["d'lock","unlock"]
 
 def today_word():
-    with open("static/dictionary data/todaylist", 'r', encoding="utf-8") as f:
+    with open("/dictionary data/todaylist", 'r', encoding="utf-8") as f:
         data = f.read()
         if datetime.now().strftime("%Y%m%d") == data.split("\n")[-2].split("|")[0]:
             word = data.split("\n")[-2].split("|")[1]
         else:
-            with open("static/dictionary data/wordlist", 'r') as g:
+            with open("/dictionary data/wordlist", 'r') as g:
                 wordlist = json.loads(g.read())
             word = random.choice(wordlist)
-            with open("static/dictionary data/todaylist", 'a') as g:
+            with open("/dictionary data/todaylist", 'a') as g:
                 g.write(datetime.now().strftime("%Y%m%d") + "|" + word + "\n")
     return word
 
@@ -153,7 +153,7 @@ def _wordle(user, origin):
 def wordle():
     if "wordle" not in request.get_json().keys(): return json.dumps({"success":False})
     data = request.get_json()["wordle"]
-    with open("static/dictionary data/wordlist", 'r') as f:
+    with open("/dictionary data/wordlist", 'r') as f:
         wordlist = json.loads(f.read())
     data = data.lower()
     if data in freepass: return json.dumps({"success":True,"word":data,"status":[2,2,2,2,2,2]})
