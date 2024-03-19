@@ -4,7 +4,7 @@ n = input()
 
 output = []
 
-with open("dictionary data/wordlist_help") as f:
+with open("static/dictionary data/wordlist_help") as f:
     data = json.loads(f.read())
     for i in data:
         is_al = True
