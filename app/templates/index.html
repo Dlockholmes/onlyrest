@@ -66,6 +66,7 @@
 
                 Http.onreadystatechange=(e)=>{
                     if(Http.readyState!=4){return;}
+                    console.log(Http.responseText);
                     data = JSON.parse(Http.responseText);
                     if(!data["success"]){
                         if(data["error"]=="NoDict"){
