@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, session, redirect
 import json, re, pymysql, random, string
 from datetime import datetime
 
-app = Flask(__name__, static_url_path="/")
+app = Flask(__name__)
 app.secret_key = "hello world"
 
 freepass=["d'lock","unlock"]
