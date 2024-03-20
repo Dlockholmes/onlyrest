@@ -163,7 +163,14 @@ def wordle():
 
 @app.route("/mission")
 def mission():
-    if "logged" not in session: json.dumps({"success": False})
-    if not session["logged"]: json.dumps({"success": False})
+    if "logged" not in session: return redirect("/Corba")
+    if not session["logged"]: return redirect("/Corba")
 
     return render_template("mission.html",user=session["username"])
+
+@app.route("/mission2")
+def mission2():
+    if "logged" not in session: return redirect("/Corba")
+    if not session["logged"]: return redirect("/Corba")
+
+    return render_template("mission2.html",user=session["username"])
