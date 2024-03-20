@@ -118,9 +118,14 @@
                         window.scrollTo(0,document.body.scrollHeight);
                         alert("내 마음을~! U.N.L.O.C.K (언록~!)");
                     }
-                    if(accept_next(data["status"])){
-                        copy_board();
+                    if(data["word"]=="d'lock"){
                         location.href="/Corba";
+                    }
+                    else {
+                        if (accept_next(data["status"])) {
+                            copy_board();
+                            alert("빰빠라밤~! 정답!!!");
+                        }
                     }
                 };
             }
