@@ -161,7 +161,7 @@ def wordle():
     word = today_word()
     return json.dumps({"success":True,"word":data,"status":_wordle(data,word)})
 
-@app.route("/mission")
+@app.route("/mission1")
 def mission():
     if "logged" not in session: return redirect("/Corba")
     if not session["logged"]: return redirect("/Corba")

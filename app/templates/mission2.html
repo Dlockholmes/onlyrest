@@ -24,5 +24,14 @@
     <div id="letter" style="font-weight: bold;">
         <p>다음 페이지</p>
     </div>
+    <div id="pre_btn" style="position:absolute; top:120%; left:50%; padding:50px; background-color:white; transform:translate(-300px,0px);"></div>
+    <script>
+        document.getElementById("pre_btn").addEventListener("click",(e)=>{
+            location.href="/mission"+(Number(location.href.split("mission")[1])-1);
+        });
+        document.getElementById("nxt_btn").addEventListener("click",(e)=>{
+            location.href="/mission"+(Number(location.href.split("mission")[1])+1);
+        });
+    </script>
 </body>
 </html>
