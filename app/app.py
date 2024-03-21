@@ -6,6 +6,7 @@ app = Flask(__name__,static_url_path="/")
 app.secret_key = "hello world"
 
 freepass=["d'lock","unlock"]
+banned_regid = ["root","admin","user"]
 
 def today_word():
     with open("/var/www/rest/app/static/dictionary data/todaylist", 'r', encoding="utf-8") as f:
@@ -70,6 +71,8 @@ def register():
     p = re.compile("[^a-zA-Z0-9]")
     if (p.search(data["id"]) != None or p.search(data["pw"]) != None): return json.dumps({"success": False, "error": "SQLFilter"})
     user_id, user_pw = data["id"], data["pw"]
+
+    if user_id in banned_regid: return json.dumps({"success":False,"error": "That username is banned"})
 
     login_db = pymysql.connect(host="localhost", user="root", password="taebin0408", db="login")
     login_cursor = login_db.cursor(pymysql.cursors.DictCursor)
