@@ -204,3 +204,7 @@ def napoli():
         data = login_cursor.fetchall()[0]["signed_1"]
         if not data: return redirect("/Corba")
         return render_template("neapolitan.html",user=session["username"])
+
+@app.route("/tablemanner")
+def tablemanner():
+    return render_template("napoli_1.html",user=session["username"])
