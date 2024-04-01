@@ -185,7 +185,7 @@ def napoli():
 
     if request.method == "POST":
         data = request.get_json()
-        if data == session["username"]: return json.dumps({"success":True})
+        if data["id"] == session["username"]: return json.dumps({"success":True})
         else: return json.dumps({"success":False,"error":"ID not matched"})
     else:
         return render_template("neapolitan.html",user=session["username"])
