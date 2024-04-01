@@ -11,8 +11,8 @@ banned_regid = ["root","admin","user"]
 def today_word():
     with open("/var/www/rest/app/static/dictionary data/todaylist", 'r', encoding="utf-8") as f:
         data = f.read()
-        if datetime.now().strftime("%Y%m%d") == data.split("\n")[-2].split("|")[0]:
-            word = data.split("\n")[-2].split("|")[1]
+        if datetime.now().strftime("%Y%m%d") == data.split("\n")[-1].split("|")[0]:
+            word = data.split("\n")[-1].split("|")[1]
         else:
             with open("/var/www/rest/app/static/dictionary data/wordlist", 'r') as g:
                 wordlist = json.loads(g.read())
