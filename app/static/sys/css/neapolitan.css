@@ -33,6 +33,12 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: '아리랑혼';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/JSArirangHON-RegularA1.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 body{
     text-align: center;
