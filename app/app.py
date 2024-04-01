@@ -207,4 +207,12 @@ def napoli():
 
 @app.route("/tablemanner")
 def tablemanner():
+    if "logged" not in session: return redirect("/Corba")
+    if not session["logged"]: return redirect("/Corba")
+    login = pymysql.connect(host="localhost", user="root", password="taebin0408", db="login")
+    login_cursor = login.cursor(pymysql.cursors.DictCursor)
+    login_cursor.execute(f"select * from login_data where userid=\"{session['username']}\";")
+    data = login_cursor.fetchall()[0]["signed_1"]
+    if not data: return redirect("/Corba")
+
     return render_template("napoli_1.html",user=session["username"])
