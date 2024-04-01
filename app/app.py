@@ -180,14 +180,23 @@ def mission2():
 
 @app.route("/napoli", methods=["POST", "GET"])
 def napoli():
-
     if request.method == "POST":
         if "logged" not in session: return json.dumps({"success":False,"error":"not logged in"})
         if not session["logged"]: return json.dumps({"success":False,"error":"not logged in"})
         data = request.get_json()
-        if data["id"] == session["username"]: return json.dumps({"success":True})
+        if data["id"] == session["username"]:
+            login = pymysql.connect(host="localhost", user="root", password="taebin0408", db="login")
+            login_cursor = login.cursor(pymysql.cursors.DictCursor)
+            login_cursor.execute(f"update login_data set signed_1=1 where userid=\"{session['username']};\"")
+            login.commit()
+            return json.dumps({"success":True})
         else: return json.dumps({"success":False,"error":"ID not matched"})
     else:
         if "logged" not in session: return redirect("/Corba")
         if not session["logged"]: return redirect("/Corba")
+        login = pymysql.connect(host="localhost", user="root", password="taebin0408", db="login")
+        login_cursor = login.cursor(pymysql.cursors.DictCursor)
+        login_cursor.execute(f"select * from login_data where userid=\"{session['id']}\";")
+        data = login_cursor.fetchall()[0]["signed_1"]
+        if not data: return redirect("/Corba")
         return render_template("neapolitan.html",user=session["username"])
