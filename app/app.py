@@ -177,3 +177,15 @@ def mission2():
     if not session["logged"]: return redirect("/Corba")
 
     return render_template("mission2.html",user=session["username"])
+
+@app.route("/napoli", methods=["POST", "GET"])
+def napoli():
+    if "logged" not in session: return json.dumps({"success":False,"error":"not logged in"})
+    if not session["logged"]: return json.dumps({"success":False,"error":"not logged in"})
+
+    if request.method == "POST":
+        data = request.get_json()
+        if data == session["username"]: return json.dumps({"success":True})
+        else: return json.dumps({"success":False,"error":"ID not matched"})
+    else:
+        return render_template("neapolitan.html",user=session["username"])
