@@ -191,7 +191,7 @@ def napoli():
             login = pymysql.connect(host="localhost", user="root", password="taebin0408", db="login")
             login_cursor = login.cursor(pymysql.cursors.DictCursor)
             print(session['username'])
-            login_cursor.execute(f"update login_data set signed_1=1 where userid=\"{session['username']};\"")
+            login_cursor.execute(f"update login_data set signed_1=1 where userid=\"{session['username']}\";")
             login.commit()
             return json.dumps({"success":True})
         else: return json.dumps({"success":False,"error":"ID not matched"})
