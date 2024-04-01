@@ -36,7 +36,7 @@
                 var data = document.getElementById("id_input").value;
                 const Http = new XMLHttpRequest();
                 Http.open("POST","/napoli");
-                Http.send(Json.stringify({"id":data}));
+                Http.send(JSON.stringify({"id":data}));
                 Http.onreadystatechange=(e)=> {
                     if (Http.readyState != 4) return;
                     if (Http.status != 200) {
