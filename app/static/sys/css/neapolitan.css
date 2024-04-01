@@ -1,0 +1,21 @@
+@font-face {
+    font-family: "menu";
+    src: url("/sys/css/fonts/EraserDust.ttf") format("truetype");
+    font-weight: normal;
+}
+body{
+    text-align: center;
+    background-color: #eee6c4;
+}
+.menu {
+    font-size: 30px;
+    color: black;
+    display: inline-block;
+    font-weight: bold;
+}
+.title{
+    font-family: "menu";
+    font-size: 50px;
+    line-height: 100px;
+    color: green;
+}
