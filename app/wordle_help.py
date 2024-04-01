@@ -4,7 +4,7 @@ n = input()
 
 output = []
 
-with open("static/dictionary data/wordlist_help") as f:
+with open("static/dictionary data/wordlist") as f:
     data = json.loads(f.read())
     for i in data:
         is_al = True
@@ -14,4 +14,5 @@ with open("static/dictionary data/wordlist_help") as f:
             if(n[idx]!=j): is_al=False
         if(is_al): output.append(i)
 
+print("검색된 단어의 갯수: "+str(len(output)))
 print(output)
