@@ -27,6 +27,12 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: '오이냉채';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-EF@1.0/EF_cucumbersalad.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 
 body{
     text-align: center;
