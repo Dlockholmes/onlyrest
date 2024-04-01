@@ -3,14 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>메뉴판</title>
+    <style>
+        body{
+            background-color: #1d543f;
+            text-align: center;
+        }
+        .menu {
+            font-size: 18px;
+            color: #eeeeee;
+            border: 3px solid #eeeeee;
+            display: inline-block;
+            font-weight: bold;
+            font-family: "궁서";
+        }
+        .title{
+            font-family: "Arial";
+            font-size: 50px;
+            line-height: 100px;
+        }
+    </style>
 </head>
-<body style="background-color: black; "oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
-    <div id="1" style="background-color:white;border-radius:10px;width:300px;height:200px;text-align:center;font-family:궁서;display:inline-block;margin-right:20px;">
-        <p style="padding-top:10px;">-1-</p>
-        <p style="font-weight: bold;color:red;">수상한 바다거북스프 레스토랑</p>
-        <p style="font-weight: bold;color:red;">이용 주의사항</p>
-        <p>난이도: 10/100</p>
-        <p>소요시간: 30분</p>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div class="menu title" style="width: 80%; height: 100px; margin-top: 10px;">Ⅰ : Appetizer</div>
+    <div id="1" class="menu" style="width: 35%; height: 22vh; line-height:2vh; margin-top:50px;">
+        <p style="padding-top:10px;">- ⅰ -</p>
+        <br>
+        <p style="color:red;">수상한 바다거북스프 레스토랑</p>
+        <p style="color:red;">이용 주의사항</p>
     </div>
 </body>
 </html>
