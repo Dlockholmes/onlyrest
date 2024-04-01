@@ -15,6 +15,12 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: '마포애민';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoAgapeA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 body{
     text-align: center;
