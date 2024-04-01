@@ -31,6 +31,9 @@
         document.getElementById("pre_btn").addEventListener("click",(e)=>{
             location.href="/mission"+(Number(location.href.split("mission")[1])-1);
         });
+        document.getElementById("id_input").addEventListener("keypress", (e)=>{
+            console.log(e.keyCode);
+        });
     </script>
 </body>
 </html>
