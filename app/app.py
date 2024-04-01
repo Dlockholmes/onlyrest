@@ -184,7 +184,10 @@ def napoli():
         if "logged" not in session: return json.dumps({"success":False,"error":"not logged in"})
         if not session["logged"]: return json.dumps({"success":False,"error":"not logged in"})
         data = request.get_json()
+        if "id" not in data.keys(): return json.dumps({"success":False,"error":"Not complete answer"})
         if data["id"] == session["username"]:
+            p = re.compile("[^a-zA-Z0-9]")
+            if (p.search(data["id"]) != None): return json.dumps({"success": False, "error": "SQLFilter"})
             login = pymysql.connect(host="localhost", user="root", password="taebin0408", db="login")
             login_cursor = login.cursor(pymysql.cursors.DictCursor)
             login_cursor.execute(f"update login_data set signed_1=1 where userid=\"{session['username']};\"")
