@@ -180,12 +180,14 @@ def mission2():
 
 @app.route("/napoli", methods=["POST", "GET"])
 def napoli():
-    if "logged" not in session: return json.dumps({"success":False,"error":"not logged in"})
-    if not session["logged"]: return json.dumps({"success":False,"error":"not logged in"})
 
     if request.method == "POST":
+        if "logged" not in session: return json.dumps({"success":False,"error":"not logged in"})
+        if not session["logged"]: return json.dumps({"success":False,"error":"not logged in"})
         data = request.get_json()
         if data["id"] == session["username"]: return json.dumps({"success":True})
         else: return json.dumps({"success":False,"error":"ID not matched"})
     else:
+        if "logged" not in session: return redirect("/Corba")
+        if not session["logged"]: return redirect("/Corba")
         return render_template("neapolitan.html",user=session["username"])
