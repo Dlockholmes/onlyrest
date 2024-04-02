@@ -50,6 +50,7 @@ body{
     display: inline-block;
 }
 .manual{
+    margin: 0 auto;
     font-size: 18px;
     color: black;
     display: block;
