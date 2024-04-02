@@ -29,6 +29,8 @@ function juice_menu(){
             if(idx>randNum){
                 if(colors[i]=="red"){
                     died=true;
+                } else {
+                    died=false;
                 }
                 document.getElementsByClassName("liq")[0].style.background=colors[i];
                 break;
