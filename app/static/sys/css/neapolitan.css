@@ -52,7 +52,7 @@ body{
 .manual{
     font-size: 18px;
     color: black;
-    display: inline-block;
+    display: block;
 }
 .title{
     font-family: "능소화";
