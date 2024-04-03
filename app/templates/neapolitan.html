@@ -8,7 +8,12 @@
     <script src="/sys/js/juice.js"></script>
 </head>
 <body onload="juice_menu();" oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+
+    {% if processed["tm"] %}
+    <div class="menu title" style="width: 80%; height: 100px; margin-top: 30px;">FIRST DISH</div>
+    {% else %}
     <div class="menu title" style="width: 80%; height: 100px; margin-top: 30px;">Appetizer</div>
+    {% endif %}
     <div id="1" class="manual" style="width: 320px; height: 22vh; line-height:2vh; margin-top:50px;">
         <p style="padding-top:10px;">- ⅰ -</p>
         <div id="menu_1">
@@ -18,6 +23,19 @@
             <hr>
         </div>
     </div>
+
+    {% if processed["tm"] %}
+    <div id="1" class="manual" style="width: 320px; height: 22vh; line-height:2vh;">
+        <p style="padding-top:10px;">- ⅱ -</p>
+        <div id="menu_1">
+            <hr>
+            <p style="color:red; font-family:'아리랑혼'">바다거북스프</p>
+            <p style="font-size: 18px;"></p>
+            <hr>
+        </div>
+    </div>
+    {% endif %}
+
     <script>
         document.getElementById("menu_1").addEventListener("click",(e)=>{
             document.location.href="/tablemanner"

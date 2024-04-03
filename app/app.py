@@ -84,6 +84,13 @@ def register():
     login_cursor.execute("insert into login_data (userid, userpw) values ('{}','{}')".format(user_id, user_pw))
     login_db.commit()
     login_db.close()
+
+    napoli_db = pymysql.connect(host="localhost", user="root", password="taebin0408", db="napoli")
+    napoli_cursor = napoli_db.cursor(pymysql.cursors.DictCursor)
+    napoli_cursor.execute(f"insert into napoli (userid) values ('{user_id}');")
+    napoli_db.commit()
+    napoli_db.close()
+
     return json.dumps({"success":True})
 
 @app.route("/logout", methods=["POST"])
@@ -193,6 +200,7 @@ def napoli():
             print(session['username'])
             login_cursor.execute(f"update login_data set signed_1=1 where userid=\"{session['username']}\";")
             login.commit()
+            login.close()
             return json.dumps({"success":True})
         else: return json.dumps({"success":False,"error":"ID not matched"})
     else:
@@ -202,8 +210,16 @@ def napoli():
         login_cursor = login.cursor(pymysql.cursors.DictCursor)
         login_cursor.execute(f"select * from login_data where userid=\"{session['username']}\";")
         data = login_cursor.fetchall()[0]["signed_1"]
+        login.close()
         if not data: return redirect("/Corba")
-        return render_template("neapolitan.html",user=session["username"])
+
+        napoli_db = pymysql.connect(host="localhost", user="root", passwd="taebin0408", db="napoli")
+        napoli_cursor = napoli_db.cursor(pymysql.cursors.DictCursor)
+        napoli_cursor.execute(f"select * from napoli where userid=\"{session['username']}\";")
+        processed = napoli_cursor.fetchall()[0]
+        print(processed)
+
+        return render_template("neapolitan.html",user=session["username"],processed=processed)
 
 @app.route("/tablemanner")
 def tablemanner():
@@ -213,6 +229,29 @@ def tablemanner():
     login_cursor = login.cursor(pymysql.cursors.DictCursor)
     login_cursor.execute(f"select * from login_data where userid=\"{session['username']}\";")
     data = login_cursor.fetchall()[0]["signed_1"]
+    login.close()
     if not data: return redirect("/Corba")
 
     return render_template("napoli_1.html",user=session["username"])
+
+@app.route("/neapolitan", methods=["POST"])
+def neapolitan():
+    if request.method == "POST":
+        if "logged" not in session: return json.dumps({"success":False,"error":"not logged in"})
+        if not session["logged"]: return json.dumps({"success":False,"error":"not logged in"})
+        login = pymysql.connect(host="localhost", user="root", password="taebin0408", db="login")
+        login_cursor = login.cursor(pymysql.cursors.DictCursor)
+        login_cursor.execute(f"select * from login_data where userid=\"{session['username']}\";")
+        data = login_cursor.fetchall()[0]["signed_1"]
+        login.close()
+        if not data: return json.dumps({"success":False,"error":"not logged in"})
+
+        opname=request.get_json()["name"]
+
+        if opname=="TableManner":
+            napoli_db=pymysql.connect(host="localhost", user="root", password="taebin0408", db="napoli")
+            napoli_cursor=napoli_db.cursor(pymysql.cursors.DictCursor)
+            napoli_cursor.execute(f"update napoli set tm=1 where userid=\"{session['username']}\";")
+            napoli_db.commit()
+            napoli_db.close()
+            return json.dumps({"success":True})

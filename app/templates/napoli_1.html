@@ -6,7 +6,10 @@
     <link rel="stylesheet" href="/sys/css/neapolitan.css">
 </head>
 <body>
-    <div class="menu title" onclick="document.location.href='/napoli';">TABLE MANNER</div>
+    <div class="menu title" onclick="document.location.href='/napoli';">
+        TABLE MANNER
+        <div style="font-size: 18px; color: red; line-height: normal">해당 내용을 전부 읽고 위의 제목을 눌러 돌아가시오</div>
+    </div>
     <div>
         <hr>
         <div>
@@ -33,8 +36,8 @@
         </div>
         <hr>
         <div class="manual">
-            <div>3. 저희 가게에서는 메뉴를 즐기시며</div>
-            <div>간단한 샐러드바를 같이</div>
+            <div class="fake" data-content="3. 저희 가게에서는 메뉴를 즐기시며">3. 저희 가게에서는 메뉴를 즐기시며</div>
+            <div data-content="간단한 샐러드바를 같이">간단한 샐러드바를 같이</div>
             <div>무료로 제공드리고 있습니다.</div>
             <div>이용 가능 시간은 만석일 시 4시간,</div>
             <div>만석이 아닐 경우, 2시간으로 제한합니다.</div>
@@ -94,5 +97,30 @@
         </div>
         <hr>
     </div>
+    <script>
+        var passed=false;
+        document.addEventListener("scroll",(e)=>{
+            if(!passed) {
+                if (window.scrollY >= (document.body.scrollHeight - window.innerHeight)) {
+                    const Http = new XMLHttpRequest();
+                    Http.open("POST", "/neapolitan");
+                    Http.setRequestHeader("Content-Type","application/json")
+                    Http.send(JSON.stringify({"name": "TableManner"}));
+                    Http.onreadystatechange=(e)=>{
+                        if(Http.readyState != 4) return;
+                        if(Http.status!=200){
+                            return;
+                        }
+                        var received = JSON.parse(Http.responseText);
+                        if(received["success"]!=true){
+                            return;
+                        }
+                        return;
+                    };
+                    passed = true;
+                }
+            }
+        });
+    </script>
 </body>
 </html>
